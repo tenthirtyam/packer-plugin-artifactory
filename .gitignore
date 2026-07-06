@@ -1,0 +1,25 @@
+# Ignore editor directories.
+.idea/
+.vscode/
+
+# Ignore temporary editor files.
+*~
+
+# Ignore generated test artifacts; keep the Docker Compose stack tracked.
+test/*
+!test/docker-compose.yaml
+
+# Ignore macOS desktop services store files.
+**/.DS_Store
+
+# Ignore example build output.
+examples/*/output/
+examples/**/builds/
+
+# Ignore distribution files.
+packer-plugin-artifactory
+
+# Ignore documentation build and Python tooling.
+site/
+.venv/
+*.egg-info/
