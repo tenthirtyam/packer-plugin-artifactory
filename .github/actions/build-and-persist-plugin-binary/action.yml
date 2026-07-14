@@ -1,0 +1,32 @@
+---
+name: Build and Persist Plugin Binary
+
+inputs:
+  GOOS:
+    required: true
+  GOARCH:
+    required: true
+
+permissions:
+  contents: read
+
+runs:
+  using: composite
+  steps:
+    - name: Checkout
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+    - name: Build Plugin Binary
+      shell: bash
+      run: "GOOS=${{ inputs.GOOS }} GOARCH=${{ inputs.GOARCH }} go build -o ./pkg/packer_plugin_artifactory_${{ inputs.GOOS }}_${{ inputs.GOARCH }} ."
+    - name: Zip Plugin Binary
+      shell: bash
+      run: zip ./pkg/packer_plugin_artifactory_${{ inputs.GOOS }}_${{ inputs.GOARCH }}.zip ./pkg/packer_plugin_artifactory_${{ inputs.GOOS }}_${{ inputs.GOARCH }}
+    - name: Remove Unzipped Plugin Binary
+      shell: bash
+      run: rm ./pkg/packer_plugin_artifactory_${{ inputs.GOOS }}_${{ inputs.GOARCH }}
+    - name: Upload Plugin Binary Artifact
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      with:
+        name: "packer_plugin_artifactory_${{ inputs.GOOS }}_${{ inputs.GOARCH }}.zip"
+        path: "pkg/packer_plugin_artifactory_${{ inputs.GOOS }}_${{ inputs.GOARCH }}.zip"
+        retention-days: 30

@@ -1,0 +1,102 @@
+---
+name: Validate
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  check-mod-tidy:
+    runs-on: ubuntu-latest
+    name: Check Tidy
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Setup Go
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: go.mod
+          cache: true
+      - name: Run Tidy
+        run: go mod tidy
+      - name: Verify Tidy
+        shell: bash
+        run: |
+          if ! git diff --exit-code; then
+            echo "go.mod/go.sum are not tidy."
+            echo "Run: go mod tidy"
+            exit 1
+          fi
+  check-lint:
+    runs-on: ubuntu-latest
+    name: Check Lint
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Setup Go
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: go.mod
+          cache: true
+      - name: Run Linters
+        uses: golangci/golangci-lint-action@ba0d7d2ec06a0ea1cb5fa41b2e4a3ab91d21278a # v9.3.0
+        with:
+          version: latest
+          only-new-issues: true
+  check-format:
+    runs-on: ubuntu-latest
+    name: Check Format
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Setup Go
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: go.mod
+          cache: true
+      - name: Run Format
+        shell: bash
+        run: |
+          files="$(gofmt -l .)"
+          if [[ -n "$files" ]]; then
+            echo "The following files are not properly formatted:"
+            echo "$files"
+            echo
+            echo "Run: make format"
+            exit 1
+          fi
+  check-generate:
+    runs-on: ubuntu-latest
+    name: Check Generate
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Setup Go
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: go.mod
+          cache: true
+      - name: Run Generate
+        shell: bash
+        run: |
+          export PATH=$PATH:$(go env GOPATH)/bin
+          make generate
+          files="$(git status -s)"
+          if [[ -n "$files" ]]; then
+            echo "The following generated files have changed but are not committed:"
+            echo "$files"
+            echo
+            echo "Run: make generate"
+            exit 1
+          fi

@@ -1,0 +1,67 @@
+---
+name: Notify Integration Release (Manual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "The semantic version to release."
+        default: 0.0.1
+        required: false
+      branch:
+        description: "The branch or commit SHA to release from."
+        default: 'main'
+        required: false
+
+jobs:
+  strip-version:
+    runs-on: ubuntu-latest
+    outputs:
+      packer-version: ${{ steps.strip.outputs.packer-version }}
+    steps:
+      - name: Strip Version Prefix
+        id: strip
+        env:
+          REF: ${{ github.event.inputs.version }}
+        run: |
+          echo "packer-version=$(echo "$REF" | sed -E 's/v?([0-9]+\.[0-9]+\.[0-9]+)/\1/')" >> "$GITHUB_OUTPUT"
+  notify-release:
+    needs:
+      - strip-version
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.inputs.branch }}
+      - name: Setup Go
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: go.mod
+      - name: Generate
+        run: make generate
+      - name: Check for Uncommitted Changes
+        shell: bash
+        run: |
+          uncommitted="$(git status -s)"
+          if [[ -z "$uncommitted" ]]; then
+            echo "OK"
+          else
+            echo "Documentation has been updated, but the compiled docs have not been committed."
+            echo "Run 'make generate', and commit the results to resolve this error."
+            echo "Generated but Uncommitted Files:"
+            echo "$uncommitted"
+            exit 1
+          fi
+      - name: Checkout (Integration Release Action)
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: hashicorp/integration-release-action
+          path: ./integration-release-action
+      - name: Notify Release
+        uses: ./integration-release-action
+        with:
+          integration_identifier: "packer/tenthirtyam/artifactory"
+          release_version: ${{ needs.strip-version.outputs.packer-version }}
+          release_sha: ${{ github.event.inputs.branch }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}

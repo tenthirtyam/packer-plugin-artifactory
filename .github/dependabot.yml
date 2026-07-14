@@ -1,0 +1,54 @@
+---
+version: 2
+
+updates:
+  # GitHub Actions
+  - package-ecosystem: 'github-actions'
+    directory: '/.github/workflows'
+    schedule:
+      interval: 'weekly'
+    commit-message:
+      prefix: 'chore(ci):'
+      include: 'scope'
+    labels:
+      - 'chore'
+      - 'github-actions'
+    groups:
+      github-actions:
+        patterns:
+          - '*'
+
+  # Go Modules
+  - package-ecosystem: "gomod"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(deps)"
+      include: "scope"
+    labels:
+      - "chore"
+      - "dependencies"
+    allow:
+      - dependency-name: "github.com/hashicorp/hcl/v2"
+      - dependency-name: "github.com/hashicorp/packer-plugin-sdk"
+      - dependency-name: "github.com/jfrog/jfrog-client-go"
+
+  # Documentation (Python / Properdocs)
+  - package-ecosystem: "pip"
+    directory: "/docs-site"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(deps)"
+      include: "scope"
+    labels:
+      - "chore"
+      - "dependencies"
+    allow:
+      - dependency-name: "mkdocs-materialx"
+      - dependency-name: "properdocs"
+      - dependency-name: "mike"
+      - dependency-name: "mkdocs-git-revision-date-localized-plugin"
+      - dependency-name: "mkdocs-minify-plugin"
+      - dependency-name: "mkdocs-open-in-new-tab"
