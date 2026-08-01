@@ -92,10 +92,15 @@ checksum:
   algorithm: sha256
 
 signs:
-  - cmd: signore
-    args: [ "sign", "--dearmor", "--file", "${artifact}", "--out", "${signature}" ]
-    artifacts: checksum
-    signature: ${artifact}.sig
+  - artifacts: checksum
+    args:
+      - "--batch"
+      - "--local-user"
+      - "{{ .Env.GPG_FINGERPRINT }}"
+      - "--output"
+      - "${signature}"
+      - "--detach-sign"
+      - "${artifact}"
 
 changelog:
   use: github-native
