@@ -26,6 +26,11 @@
         <changefreq>daily</changefreq>
     </url>
     <url>
+        <loc>https://tenthirtyam.github.io/packer-plugin-artifactory/community/release-verification/</loc>
+        <lastmod>2026-08-04</lastmod>
+        <changefreq>daily</changefreq>
+    </url>
+    <url>
         <loc>https://tenthirtyam.github.io/packer-plugin-artifactory/community/security/</loc>
         <lastmod>2026-08-04</lastmod>
         <changefreq>daily</changefreq>
