@@ -25,7 +25,7 @@ packer {
 Alternatively, you can use `packer plugins install` to manage installation of this plugin.
 
 ```sh
-packer plugins install github.com/tenthirtyam/artifactory
+packer plugins install github.com/tenthirtyam/artifactory@v0.1.0
 ```
 
 ## Supported Platforms

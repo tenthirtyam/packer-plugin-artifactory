@@ -10,7 +10,7 @@ var (
 	// number is the main version number.
 	number = "0.1.0"
 	// channel is the release channel for the version.
-	channel = "dev"
+	channel = ""
 	// metadata is build metadata for the version.
 	metadata = ""
 	// PluginVersion is the complete version information for the plugin.
