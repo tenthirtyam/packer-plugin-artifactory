@@ -3,7 +3,7 @@
 
 module github.com/tenthirtyam/packer-plugin-artifactory
 
-go 1.26.5
+go 1.26.6
 
 require (
 	github.com/hashicorp/hcl/v2 v2.24.0
