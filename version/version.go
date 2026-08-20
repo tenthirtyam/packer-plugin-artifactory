@@ -8,9 +8,9 @@ import sdkversion "github.com/hashicorp/packer-plugin-sdk/version"
 
 var (
 	// number is the main version number.
-	number = "0.1.0"
+	number = "0.1.1"
 	// channel is the release channel for the version.
-	channel = ""
+	channel = "dev"
 	// metadata is build metadata for the version.
 	metadata = ""
 	// PluginVersion is the complete version information for the plugin.
