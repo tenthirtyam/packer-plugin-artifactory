@@ -16,7 +16,7 @@ packer {
   required_plugins {
     artifactory = {
       source  = "github.com/tenthirtyam/artifactory"
-      version = ">=0.1.0"
+      version = ">=0.1.1"
     }
   }
 }
@@ -25,7 +25,7 @@ packer {
 Alternatively, you can use `packer plugins install` to manage installation of this plugin.
 
 ```sh
-packer plugins install github.com/tenthirtyam/artifactory@v0.1.0
+packer plugins install github.com/tenthirtyam/artifactory@v0.1.1
 ```
 
 ## Supported Platforms
