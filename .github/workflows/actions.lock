@@ -5,30 +5,30 @@ version: 'v0.0.3'
 workflows:
     '.github/workflows/docs.yml':
         - 'actions/checkout@v7.0.1'
-        - 'actions/setup-python@v6.3.0'
+        - 'actions/setup-python@v7.1.0'
     '.github/workflows/lock.yml':
         - 'dessant/lock-threads@v6.0.2'
     '.github/workflows/notify-integration-release-via-manual.yaml':
         - 'actions/checkout@v7.0.1'
-        - 'actions/setup-go@v7.0.0'
+        - 'actions/setup-go@v7.1.0'
     '.github/workflows/notify-integration-release-via-tag.yaml':
         - 'actions/checkout@v7.0.1'
-        - 'actions/setup-go@v7.0.0'
+        - 'actions/setup-go@v7.1.0'
     '.github/workflows/release.yml':
         - 'actions/checkout@v7.0.1'
-        - 'actions/setup-go@v7.0.0'
-        - 'actions/setup-python@v6.3.0'
+        - 'actions/setup-go@v7.1.0'
+        - 'actions/setup-python@v7.1.0'
         - 'crazy-max/ghaction-import-gpg@v7.0.0'
-        - 'goreleaser/goreleaser-action@v7.2.3'
+        - 'goreleaser/goreleaser-action@v7.3.0'
     '.github/workflows/stale.yml':
-        - 'actions/stale@v10.4.0'
+        - 'actions/stale@v11.0.0'
     '.github/workflows/test.yml':
         - 'actions/checkout@v7.0.1'
-        - 'actions/setup-go@v7.0.0'
+        - 'actions/setup-go@v7.1.0'
         - 'golangci/golangci-lint-action@v9.3.0'
     '.github/workflows/validate.yml':
         - 'actions/checkout@v7.0.1'
-        - 'actions/setup-go@v7.0.0'
+        - 'actions/setup-go@v7.1.0'
         - 'golangci/golangci-lint-action@v9.3.0'
 dependencies:
     'actions/checkout@v7.0.1':
@@ -36,19 +36,19 @@ dependencies:
         commit: 'sha1-3d3c42e5aac5ba805825da76410c181273ba90b1'
         owner_id: 44036562
         repo_id: 197814629
-    'actions/setup-go@v7.0.0':
-        ref: 'v7.0.0'
-        commit: 'sha1-b7ad1dad31e06c5925ef5d2fc7ad053ef454303e'
+    'actions/setup-go@v7.1.0':
+        ref: 'v7.1.0'
+        commit: 'sha1-d8cbb8045d7f43706b9177cceb36c1f91a6644d5'
         owner_id: 44036562
         repo_id: 192624594
-    'actions/setup-python@v6.3.0':
-        ref: 'v6.3.0'
-        commit: 'sha1-ece7cb06caefa5fff74198d8649806c4678c61a1'
+    'actions/setup-python@v7.1.0':
+        ref: 'v7.1.0'
+        commit: 'sha1-6d4fd22b20465ccc0f7354476588e8df7c9ca0e0'
         owner_id: 44036562
         repo_id: 192625525
-    'actions/stale@v10.4.0':
-        ref: 'v10.4.0'
-        commit: 'sha1-1e223db275d687790206a7acac4d1a11bd6fe629'
+    'actions/stale@v11.0.0':
+        ref: 'v11.0.0'
+        commit: 'sha1-4391f3da665fdf50b6810c1a66712fb9ba21aa93'
         owner_id: 44036562
         repo_id: 200437066
     'crazy-max/ghaction-import-gpg@v7.0.0':
@@ -66,8 +66,8 @@ dependencies:
         commit: 'sha1-ba0d7d2ec06a0ea1cb5fa41b2e4a3ab91d21278a'
         owner_id: 35628013
         repo_id: 232539879
-    'goreleaser/goreleaser-action@v7.2.3':
-        ref: 'v7.2.3'
-        commit: 'sha1-f06c13b6b1a9625abc9e6e439d9c05a8f2190e94'
+    'goreleaser/goreleaser-action@v7.3.0':
+        ref: 'v7.3.0'
+        commit: 'sha1-a4f02ab5355a589de60d917a659ce617ed19b3de'
         owner_id: 24697112
         repo_id: 209873006
